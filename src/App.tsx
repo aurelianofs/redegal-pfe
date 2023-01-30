@@ -1,25 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Outlet,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import Context from '@/context';
+
+import TopBar from '@/components/TopBar';
+import Home from '@/pages/Home';
+import PodcastDetail from '@/pages/PodcastDetail';
+import EpisodeDetail from './pages/EpisodeDetail';
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={
+      <main className='max-w-screen-lg mx-auto px-4'>
+        <TopBar />
+        <Outlet />
+      </main>
+    }>
+      <Route path="/" element={<Home />} />
+      <Route path="podcast/:podcastId" element={<PodcastDetail />} />
+      <Route path="podcast/:podcastId/episode/:episodeId" element={<EpisodeDetail />} />
+    </Route>
+  )
+);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Context>
+      <RouterProvider router={router} />
+    </Context>
   );
 }
 
